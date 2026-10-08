@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: task-scheduler
+
+  datasource:
+    # ${VAR:default} syntax: read from environment variable if set,
+    # otherwise fall back to the default after the colon. This is
+    # what lets the same jar run against different databases in
+    # dev/test/prod just by setting env vars -- no code changes,
+    # no rebuilding.
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/taskscheduler}
+    username: ${DB_USER:scheduler}
+    password: ${DB_PASSWORD:scheduler}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      # "update": Hibernate compares entity classes to existing tables
+      # and auto-adjusts the schema. Convenient for learning/local dev.
+      # NEVER use this in a real production system -- you'd use a
+      # proper migration tool instead (see note below).
+      ddl-auto: update
+    show-sql: true          # prints every generated SQL statement to the console -- great for learning what JPA is doing under the hood
+    properties:
+      hibernate:
+        format_sql: true    # pretty-prints that SQL instead of one long line
+
+server:
+  port: 8080
